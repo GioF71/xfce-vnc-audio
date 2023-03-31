@@ -28,12 +28,17 @@ RUN apt-get update
 RUN apt-get install -y firefox-esr
 RUN apt-get remove -y software-properties-common
 # regular software
-RUN apt-get install -y xfce4 xfce4-goodies
+RUN apt-get install -y xfce4
+RUN apt-get install -y xfce4-terminal
+#RUN apt-get install -y xfce4-goodies
 RUN apt-get install -y xfce4-whiskermenu-plugin
 RUN apt-get install -y pulseaudio-dlna
 RUN apt-get install -y dbus-x11
 RUN apt-get install -y tightvncserver
 RUN apt-get install -y openssh-server
+RUN apt-get install xfce4-terminal
+RUN update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator /usr/bin/xfce4-terminal 50
+
 RUN apt-get -y autoremove
 
 RUN rm -rf /var/lib/apt/lists/*
@@ -57,6 +62,8 @@ COPY README.md /app/doc/
 
 ENV PUID ""
 ENV PGID ""
+
+ENV VNC_PASSWORD ""
 
 WORKDIR /app/bin
 

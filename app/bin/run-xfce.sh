@@ -18,6 +18,13 @@ USER_NAME=vnc-user
 GROUP_NAME=vnc-user
 HOME_DIR=/home/$USER_NAME
 
+if [[ -d "$HOME_DIR" ]]; then
+    echo "Home directory [$HOME_DIR] already exists, setting ownership"
+    chown -R $PUID:$PGID $HOME_DIR
+else
+    echo "Home directory [$HOME_DIR] does not exist, will be created"
+fi
+
 if [ ! $(getent group $GROUP_NAME) ]; then
     echo "group $GROUP_NAME does not exist, creating..."
     groupadd -g $PGID $GROUP_NAME
@@ -45,14 +52,17 @@ fi
 
 #echo "Command line: [$CMD_LINE]"
 
-myuser="vnc"
-mypasswd="password"
+DEFAULT_PASSWORD="password"
 
-echo $mypasswd | vncpasswd -f > $HOME_DIR/.vnc/passwd
+if [[ -z "${VNC_PASSWORD}" ]]; then
+    VNC_PASSWORD=$DEFAULT_PASSWORD
+fi
+
+echo $VNC_PASSWORD | vncpasswd -f > $HOME_DIR/.vnc/passwd
 chown -R $USER_NAME:$GROUP_NAME $HOME_DIR/.vnc
 chmod 0600 $HOME_DIR/.vnc/passwd
 
-
+#CMD_LINE="vncserver -localhost"
 CMD_LINE="vncserver"
 
 su - $USER_NAME -c "$CMD_LINE"
