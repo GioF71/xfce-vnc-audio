@@ -142,7 +142,24 @@ else
     echo "NOT Enabling PulseAudio-DLNA autostart"
 fi
 
-CMD_LINE="vncserver -depth ${VNC_DEPTH} -geometry ${VNC_GEOMETRY}"
+EXPOSE="no"
+
+if [[ -n "${VNC_EXPOSE}" ]]; then
+    if [[ "${VNC_EXPOSE^^}" == "YES" ]]; then
+        EXPOSE="yes"
+    elif [[ ! "${VNC_EXPOSE^^}" == "NO" ]]; then
+        echo "Invalid value for VNC_EXPOSE [${VNC_EXPOSE}], leaving not exposed"
+    fi
+fi
+
+CMD_LINE="vncserver"
+if [ "${EXPOSE}" == "no" ]; then
+    echo "VNC not exposed"
+    CMD_LINE="$CMD_LINE -localhost"
+else
+    echo "VNC is exposed"
+fi
+CMD_LINE="$CMD_LINE -depth ${VNC_DEPTH} -geometry ${VNC_GEOMETRY}"
 echo "Running vncserver: [$CMD_LINE]"
 su - $USER_NAME -c "$CMD_LINE"
 

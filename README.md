@@ -11,6 +11,8 @@ VARIABLE|DESCRIPTION
 :---|:---
 PUID|User id for the user `vnc-user`
 PGID|Group id for the group `vnc-user`
+AUDIO_GID|`audio` group id from the host machine.
+VNC_EXPOSE|Set to `yes` if you want to expose VNC directly (not recommended)
 VNC_GEOMETRY|Geometry of vnc, defaults to `1280x720`
 VNC_DEPTH|Color depth of vnc, defaults to `16`, conservatively
 VNC_AUTOSTART_PULSEAUDIO|Autostart PulseAudio, defaults to `yes`
@@ -19,3 +21,7 @@ VNC_AUTOSTART_PULSEAUDIO_DLNA|Autostart PulseAudio-DLNA, defaults to `yes`
 ### Volumes
 
 ## Changelog
+
+DATE|DESCRIPTION
+:---|:---
+2023-03-31|Initial release
