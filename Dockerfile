@@ -34,10 +34,11 @@ RUN apt-get install -y xfce4-terminal
 RUN apt-get install -y xfce4-whiskermenu-plugin
 RUN apt-get install -y pulseaudio-dlna
 RUN apt-get install -y dbus-x11
+RUN update-alternatives --install /usr/bin/x-terminal-emulator \
+    x-terminal-emulator /usr/bin/xfce4-terminal 50
 RUN apt-get install -y tightvncserver
-RUN apt-get install -y openssh-server
-RUN apt-get install xfce4-terminal
-RUN update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator /usr/bin/xfce4-terminal 50
+#RUN apt-get install -y openssh-server
+RUN apt-get install -y novnc python3-websockify python3-numpy
 
 RUN apt-get -y autoremove
 
@@ -55,13 +56,19 @@ RUN mkdir -p /app/bin
 RUN mkdir -p /app/doc
 
 COPY app/bin/run-xfce.sh /app/bin/
-COPY app/assets/xstartup /app/assets/
+COPY app/assets/* /app/assets/
 RUN chmod +x /app/bin/*.sh
 
 COPY README.md /app/doc/
 
 ENV PUID ""
 ENV PGID ""
+
+ENV VNC_GEOMETRY ""
+ENV VNC_DEPTH ""
+
+ENV VNC_AUTOSTART_PULSEAUDIO ""
+ENV VNC_AUTOSTART_PULSEAUDIO_DLNA ""
 
 ENV VNC_PASSWORD ""
 

@@ -62,9 +62,74 @@ echo $VNC_PASSWORD | vncpasswd -f > $HOME_DIR/.vnc/passwd
 chown -R $USER_NAME:$GROUP_NAME $HOME_DIR/.vnc
 chmod 0600 $HOME_DIR/.vnc/passwd
 
-#CMD_LINE="vncserver -localhost"
-CMD_LINE="vncserver"
+#certificate
 
+CERT_DIR=$HOME_DIR/certificate
+if [[ -d "$CERT_DIR" ]]; then
+    echo "Certificate directory [$CERT_DIR] already exists, setting ownership"
+    chown -R $USER_NAME:$GROUP_NAME $CERT_DIR
+else
+    echo "Home directory [$CERT_DIR] does not exist, will be created"
+    mkdir -p $CERT_DIR
+    chown -R $USER_NAME:$GROUP_NAME $CERT_DIR
+fi
+
+CMD_LINE="openssl req -x509 -nodes -newkey rsa:3072 -keyout $CERT_DIR/novnc.pem -out $CERT_DIR/novnc.pem -days 3650 -subj '/C=US/ST=Denial/L=Springfield/O=Dis/CN=www.example.com'"
 su - $USER_NAME -c "$CMD_LINE"
 
-su - $USER_NAME -c "/bin/bash"
+DEFAULT_GEOMETRY=1280x720
+DEFAULT_DEPTH=16
+
+if [[ -z "${VNC_GEOMETRY}" ]]; then
+    VNC_GEOMETRY=$DEFAULT_GEOMETRY
+fi
+
+if [[ -z "${VNC_DEPTH}" ]]; then
+    VNC_DEPTH=$DEFAULT_DEPTH
+fi
+
+mkdir -p $HOME_DIR/.config/autostart
+chown -R $USER_NAME:$GROUP_NAME $HOME_DIR
+
+#prepare xstartup
+echo "#!/bin/bash" > $HOME_DIR/xstartup
+echo "xrdb $HOME/.Xresources" >> $HOME_DIR/xstartup
+echo "startxfce4 &" >> $HOME_DIR/xstartup
+
+if [[ -z "${START_PULSEAUDIO}" || "${START_PULSEAUDIO^^}" == "YES" ]]; then
+    echo "Enabling PulseAudio autostart"
+    cat /app/assets/PulseAudio.desktop > $HOME_DIR/.config/autostart/PulseAudio.desktop
+    chown $USER_NAME:$GROUP_NAME $HOME_DIR/.config/autostart/PulseAudio.desktop
+    cat $HOME_DIR/.config/autostart/PulseAudio.desktop
+else
+    echo "NOT Enabling PulseAudio autostart"
+fi
+
+if [[ -z "${START_PULSEAUDIO_DLNA}" || "${START_PULSEAUDIO_DLNA^^}" == "YES" ]]; then
+    echo "Enabling PulseAudio-DLNA autostart"
+    cat /app/assets/PulseAudio-DLNA.desktop > $HOME_DIR/.config/autostart/PulseAudio-DLNA.desktop
+    chown $USER_NAME:$GROUP_NAME $HOME_DIR/.config/autostart/PulseAudio-DLNA.desktop
+    cat $HOME_DIR/.config/autostart/PulseAudio-DLNA.desktop
+else
+    echo "NOT Enabling PulseAudio-DLNA autostart"
+fi
+
+
+#chown -R $USER_NAME:$GROUP_NAME $HOME_DIR/xstartup
+#chmod u+x $HOME_DIR/xstartup
+
+CMD_LINE="vncserver -localhost -depth ${VNC_DEPTH} -geometry ${VNC_GEOMETRY}"
+echo "Running vncserver: [$CMD_LINE]"
+su - $USER_NAME -c "$CMD_LINE"
+
+# start pulseaudio
+#CMD_LINE="pulseaudio -D"
+#su - $USER_NAME -c "$CMD_LINE"
+
+# start pulseaudio-dlna
+#CMD_LINE="pulseaudio-dlna --codec wav"
+#su - $USER_NAME -c "$CMD_LINE"
+
+# run novnc
+CMD_LINE="websockify --web=/usr/share/novnc/ --cert=$CERT_DIR/novnc.pem 6080 localhost:5901"
+su - $USER_NAME -c "$CMD_LINE"
