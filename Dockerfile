@@ -28,9 +28,10 @@ RUN apt-get update
 RUN apt-get install -y firefox-esr
 RUN apt-get remove -y software-properties-common
 # regular software
+RUN apt-get install -y mpc
+RUN apt-get install -y htop
 RUN apt-get install -y xfce4
 RUN apt-get install -y xfce4-terminal
-#RUN apt-get install -y xfce4-goodies
 RUN apt-get install -y xfce4-whiskermenu-plugin
 RUN apt-get install -y pulseaudio-dlna
 RUN apt-get install -y dbus-x11
