@@ -69,6 +69,13 @@ else
     echo "xstartup file already exists"
 fi
 
+# PulseAudio
+#PULSE_CLIENT_CONF="/etc/pulse/client.conf"
+#echo "Creating pulseaudio configuration file $PULSE_CLIENT_CONF..."
+#cp /app/assets/pulse-client-template.conf $PULSE_CLIENT_CONF
+#sed -i 's/PUID/'"$PUID"'/g' $PULSE_CLIENT_CONF
+
+
 #echo "Command line: [$CMD_LINE]"
 
 DEFAULT_PASSWORD="password"

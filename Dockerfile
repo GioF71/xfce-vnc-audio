@@ -33,6 +33,8 @@ RUN apt-get install -y htop
 RUN apt-get install -y xfce4
 RUN apt-get install -y xfce4-terminal
 RUN apt-get install -y xfce4-whiskermenu-plugin
+RUN apt-get install -y alsa-base
+RUN apt-get install -y alsa-utils
 RUN apt-get install -y pulseaudio-dlna
 RUN apt-get install -y dbus-x11
 RUN update-alternatives --install /usr/bin/x-terminal-emulator \
