@@ -20,6 +20,10 @@ VNC_AUTOSTART_PULSEAUDIO_DLNA|Autostart PulseAudio-DLNA, defaults to `yes`
 
 ### Volumes
 
+VOLUME|DESCRIPTION
+:---|:---
+/home/vnc-user|Home directory, use if you want to maintain your configurations.
+
 ## Changelog
 
 DATE|DESCRIPTION
