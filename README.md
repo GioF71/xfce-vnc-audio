@@ -9,8 +9,8 @@ The Firefox browser is installed, as well as an Upnp Control Point ([upplay](htt
 
 VARIABLE|DESCRIPTION
 :---|:---
-PUID|User id for the user `vnc-user`
-PGID|Group id for the group `vnc-user`
+PUID|User id for the user `vnc-user`, defaults to `1000`
+PGID|Group id for the group `vnc-user`, defaults to `1000`
 AUDIO_GID|`audio` group id from the host machine.
 VNC_EXPOSE|Set to `yes` if you want to expose VNC directly (not recommended)
 VNC_GEOMETRY|Geometry of vnc, defaults to `1280x720`
