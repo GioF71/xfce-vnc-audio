@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        base: ["bullseye"]
+        base: ["jammy"]
 
     steps:
       - name: Checkout
@@ -35,17 +35,12 @@ jobs:
           image_name=${{secrets.DOCKER_USERNAME}}/xfce-vnc-audio
 
           declare -A base_images_dict
-          base_images_dict[bullseye]="debian:bullseye-slim"
+          base_images_dict[jammy]="ubuntu:jammy"
 
           select_base_image=${base_images_dict[${{ matrix.base }}]}
 
           declare -A upstream_image_from_matrix
-          upstream_image_from_matrix[bookworm]=debian:bookworm-slim
-          upstream_image_from_matrix[bullseye]=debian:bullseye-slim
-          upstream_image_from_matrix[buster]=debian:buster-slim
-          upstream_image_from_matrix[vanilla-bookworm]=debian:bookworm-slim
-          upstream_image_from_matrix[vanilla-bullseye]=debian:bullseye-slim
-          upstream_image_from_matrix[vanilla-buster]=debian:buster-slim
+          upstream_image_from_matrix[jammy]=ubuntu:jammy
 
           declare -A special_tags
           special_tags[bullseye]="${image_name}:stable,${image_name}:latest"
