@@ -34,10 +34,12 @@ fi
 
 if [ ! $(getent passwd $USER_NAME) ]; then
     echo "user $USER_NAME does not exist, creating..."
-    useradd -m --gid $PGID --uid $PGID $USER_NAME
+    useradd -m -s /bin/bash --gid $PGID --uid $PGID $USER_NAME
 else
     echo "user $USER_NAME already exists."
 fi
+
+cd $HOME_DIR
 
 if [ ! -f "$HOME_DIR/.vnc/xstartup" ]; then
     echo "Creating xstartup file..."
@@ -95,40 +97,30 @@ chown -R $USER_NAME:$GROUP_NAME $HOME_DIR
 echo "#!/bin/bash" > $HOME_DIR/xstartup
 echo "xrdb $HOME/.Xresources" >> $HOME_DIR/xstartup
 echo "startxfce4 &" >> $HOME_DIR/xstartup
+chown -R $USER_NAME:$GROUP_NAME $HOME_DIR/xstartup
+chmod 755 $HOME_DIR/xstartup
 
 if [[ -z "${START_PULSEAUDIO}" || "${START_PULSEAUDIO^^}" == "YES" ]]; then
     echo "Enabling PulseAudio autostart"
-    cat /app/assets/PulseAudio.desktop > $HOME_DIR/.config/autostart/PulseAudio.desktop
-    chown $USER_NAME:$GROUP_NAME $HOME_DIR/.config/autostart/PulseAudio.desktop
-    cat $HOME_DIR/.config/autostart/PulseAudio.desktop
+    cat /app/assets/01-PulseAudio.desktop > $HOME_DIR/.config/autostart/01-PulseAudio.desktop
+    chown $USER_NAME:$GROUP_NAME $HOME_DIR/.config/autostart/01-PulseAudio.desktop
+    cat $HOME_DIR/.config/autostart/01-PulseAudio.desktop
 else
     echo "NOT Enabling PulseAudio autostart"
 fi
 
 if [[ -z "${START_PULSEAUDIO_DLNA}" || "${START_PULSEAUDIO_DLNA^^}" == "YES" ]]; then
     echo "Enabling PulseAudio-DLNA autostart"
-    cat /app/assets/PulseAudio-DLNA.desktop > $HOME_DIR/.config/autostart/PulseAudio-DLNA.desktop
-    chown $USER_NAME:$GROUP_NAME $HOME_DIR/.config/autostart/PulseAudio-DLNA.desktop
-    cat $HOME_DIR/.config/autostart/PulseAudio-DLNA.desktop
+    cat /app/assets/02-PulseAudio-DLNA.desktop > $HOME_DIR/.config/autostart/02-PulseAudio-DLNA.desktop
+    chown $USER_NAME:$GROUP_NAME $HOME_DIR/.config/autostart/02-PulseAudio-DLNA.desktop
+    cat $HOME_DIR/.config/autostart/02-PulseAudio-DLNA.desktop
 else
     echo "NOT Enabling PulseAudio-DLNA autostart"
 fi
 
-
-#chown -R $USER_NAME:$GROUP_NAME $HOME_DIR/xstartup
-#chmod u+x $HOME_DIR/xstartup
-
-CMD_LINE="vncserver -localhost -depth ${VNC_DEPTH} -geometry ${VNC_GEOMETRY}"
+CMD_LINE="vncserver -depth ${VNC_DEPTH} -geometry ${VNC_GEOMETRY}"
 echo "Running vncserver: [$CMD_LINE]"
 su - $USER_NAME -c "$CMD_LINE"
-
-# start pulseaudio
-#CMD_LINE="pulseaudio -D"
-#su - $USER_NAME -c "$CMD_LINE"
-
-# start pulseaudio-dlna
-#CMD_LINE="pulseaudio-dlna --codec wav"
-#su - $USER_NAME -c "$CMD_LINE"
 
 # run novnc
 CMD_LINE="websockify --web=/usr/share/novnc/ --cert=$CERT_DIR/novnc.pem 6080 localhost:5901"
