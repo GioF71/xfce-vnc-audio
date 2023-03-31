@@ -43,7 +43,7 @@ jobs:
           upstream_image_from_matrix[jammy]=ubuntu:jammy
 
           declare -A special_tags
-          special_tags[bullseye]="${image_name}:stable,${image_name}:latest"
+          special_tags[jammy]="${image_name}:stable,${image_name}:latest"
 
           tags=""
           if [ "${ref_type}" = "branch" ]; then

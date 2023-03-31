@@ -9,7 +9,7 @@ declare -A base_image_tags
 base_image_tags[jammy]=ubuntu:jammy
 
 declare -A local_tag
-local_tag[bullseye]=local-jammy
+local_tag[jammy]=local-jammy
 
 DEFAULT_BASE_IMAGE=jammy
 DEFAULT_TAG=local
@@ -41,11 +41,13 @@ if [ -z "${selected_image_tag}" ]; then
   exit 2
 fi
 
-select_tag=${local_tag[$base_image_tag]}
-if [[ -n "$select_tag" ]]; then
-  tag=$select_tag
-else
-  tag=$DEFAULT_TAG
+if [[ -z ${tag} ]]; then
+  select_tag=${local_tag[$base_image_tag]}
+  if [[ -n "$select_tag" ]]; then
+    tag=$select_tag
+  else
+    tag=$DEFAULT_TAG
+  fi
 fi
 
 if [ -z "${proxy}" ]; then
