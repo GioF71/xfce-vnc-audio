@@ -39,7 +39,7 @@ RUN apt-get install -y pulseaudio-dlna
 RUN apt-get install -y dbus-x11
 RUN update-alternatives --install /usr/bin/x-terminal-emulator \
     x-terminal-emulator /usr/bin/xfce4-terminal 50
-RUN apt-get install -y tightvncserver
+RUN apt-get install -y x11vnc
 RUN apt-get install -y xfonts-base xfonts-100dpi xfonts-75dpi
 RUN apt-get install -y novnc python3-websockify python3-numpy
 
