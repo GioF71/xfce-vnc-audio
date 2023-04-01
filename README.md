@@ -3,6 +3,10 @@
 A docker container for xfce4 via vnc for audio playback, possibly through upnp/dlna with pulseaudio-dlna.  
 The Firefox browser is installed, as well as an Upnp Control Point ([upplay](https://www.lesbonscomptes.com/upplay/index.html)).  
 
+## Disclaimer
+
+This is a work in progress. It is only working correctly on the amd64 platform.
+
 ## Usage
 
 ### Environment Variables
@@ -28,4 +32,4 @@ VOLUME|DESCRIPTION
 
 DATE|DESCRIPTION
 :---|:---
-2023-03-31|Initial release
+**unknown**|Initial release
