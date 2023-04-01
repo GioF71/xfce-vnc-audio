@@ -2,7 +2,7 @@
 
 A docker container for xfce4 via vnc for audio playback, possibly through upnp/dlna with pulseaudio-dlna.  
 The Chromium browser is installed, as well as an Upnp Control Point ([upplay](https://www.lesbonscomptes.com/upplay/index.html)).  
-PulseAudio-DLNA is also installed, so you will be able to play to your existing dlna renderer. You can set up your own renderer with docker using a combination of [mpd](https://github.com/GioF71/mpd-alsa-docker) and [upmpdcli](https://github.com/GioF71/upmpdcli-docker).
+PulseAudio-DLNA is also installed, so you will be able to `cast` audio (e.g.) from SoundCloud on the browser to your existing dlna renderers. You can set up your own renderer with docker using a combination of [mpd](https://github.com/GioF71/mpd-alsa-docker) and [upmpdcli](https://github.com/GioF71/upmpdcli-docker).
 
 ## Disclaimer
 
