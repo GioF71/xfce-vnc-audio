@@ -19,30 +19,27 @@ RUN if [ "${USE_APT_PROXY}" = "Y" ]; then \
 
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update
-RUN apt-get install -y software-properties-common
-RUN add-apt-repository ppa:jean-francois-dockes/upnpp1
-RUN apt-get update
-RUN apt-get install -y upplay
-RUN add-apt-repository ppa:mozillateam/ppa
-RUN apt-get update
-RUN apt-get install -y firefox-esr
-RUN apt-get remove -y software-properties-common
+#RUN apt-get install -y upplay
+#RUN apt-get install -y chromium
+#RUN apt-get remove -y software-properties-common
 # regular software
-RUN apt-get install -y mpc
+#RUN apt-get install -y mpc
 RUN apt-get install -y htop
 RUN apt-get install -y xfce4
 RUN apt-get install -y xfce4-terminal
 RUN apt-get install -y xfce4-whiskermenu-plugin
-RUN apt-get install -y alsa-base
+#RUN apt-get install -y alsa-base
 RUN apt-get install -y alsa-utils
 RUN apt-get install -y pulseaudio-dlna
 RUN apt-get install -y dbus-x11
 RUN update-alternatives --install /usr/bin/x-terminal-emulator \
     x-terminal-emulator /usr/bin/xfce4-terminal 50
 RUN apt-get install -y tightvncserver
-RUN apt-get install -y xtightvncviewer
+#RUN apt-get install -y xtightvncviewer
 RUN apt-get install -y xfonts-base xfonts-100dpi xfonts-75dpi
-RUN apt-get install -y novnc python3-websockify python3-numpy
+RUN apt-get install -y novnc
+RUN apt-get install -y python3-websockify
+RUN apt-get install -y python3-numpy
 
 RUN apt-get -y autoremove
 

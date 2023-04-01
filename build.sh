@@ -6,12 +6,12 @@
 
 declare -A base_image_tags
 
-base_image_tags[jammy]=ubuntu:jammy
+base_image_tags[bullseye]=debian:bullseye-slim
 
 declare -A local_tag
-local_tag[jammy]=local-jammy
+local_tag[bullseye]=local-bullseye
 
-DEFAULT_BASE_IMAGE=jammy
+DEFAULT_BASE_IMAGE=bullseye
 DEFAULT_TAG=local
 DEFAULT_USE_PROXY=N
 

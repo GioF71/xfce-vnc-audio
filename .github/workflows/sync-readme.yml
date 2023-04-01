@@ -8,7 +8,7 @@ on:
 
 jobs:
   sync-readme:
-    runs-on: ubuntu-latest
+    runs-on: debian-latest
     strategy:
       fail-fast: false
 

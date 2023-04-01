@@ -11,11 +11,11 @@ on:
 
 jobs:
   release:
-    runs-on: ubuntu-latest
+    runs-on: debian-latest
     strategy:
       fail-fast: false
       matrix:
-        base: ["jammy"]
+        base: ["bullseye"]
 
     steps:
       - name: Checkout
@@ -35,15 +35,15 @@ jobs:
           image_name=${{secrets.DOCKER_USERNAME}}/xfce-vnc-audio
 
           declare -A base_images_dict
-          base_images_dict[jammy]="ubuntu:jammy"
+          base_images_dict[bullseye]="debian:bullseye-slim"
 
           select_base_image=${base_images_dict[${{ matrix.base }}]}
 
           declare -A upstream_image_from_matrix
-          upstream_image_from_matrix[jammy]=ubuntu:jammy
+          upstream_image_from_matrix[bullseye]=debian:bullseye
 
           declare -A special_tags
-          special_tags[jammy]="${image_name}:stable,${image_name}:latest"
+          special_tags[bullseye]="${image_name}:stable,${image_name}:latest"
 
           tags=""
           if [ "${ref_type}" = "branch" ]; then
