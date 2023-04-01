@@ -29,7 +29,7 @@ RUN mkdir /app/install
 COPY install/install-upplay.sh /app/install/
 RUN /bin/bash /app/install/install-upplay.sh
 RUN apt-get update
-#RUN apt-get install -y chromium
+RUN apt-get install -y chromium
 # regular software
 #RUN apt-get install -y mpc
 RUN apt-get install -y htop
