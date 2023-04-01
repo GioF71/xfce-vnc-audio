@@ -19,9 +19,17 @@ RUN if [ "${USE_APT_PROXY}" = "Y" ]; then \
 
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update
-#RUN apt-get install -y upplay
+#RUN mkdir /app/gpg
+RUN apt-get install -y wget
+#RUN apt-get install -y gpg dirmngr
+RUN wget https://www.lesbonscomptes.com/pages/lesbonscomptes.gpg -O /usr/share/keyrings/lesbonscomptes.gpg
+#RUN gpg --no-default-keyring --keyring /app/gpg/lesbonscomptes.gpg --keyserver keyserver.ubuntu.com --recv-key F8E3347256922A8AE767605B7808CE96D38B9201
+
+RUN mkdir /app/install
+COPY install/install-upplay.sh /app/install/
+RUN /bin/bash /app/install/install-upplay.sh
+RUN apt-get update
 #RUN apt-get install -y chromium
-#RUN apt-get remove -y software-properties-common
 # regular software
 #RUN apt-get install -y mpc
 RUN apt-get install -y htop
@@ -35,7 +43,6 @@ RUN apt-get install -y dbus-x11
 RUN update-alternatives --install /usr/bin/x-terminal-emulator \
     x-terminal-emulator /usr/bin/xfce4-terminal 50
 RUN apt-get install -y tightvncserver
-#RUN apt-get install -y xtightvncviewer
 RUN apt-get install -y xfonts-base xfonts-100dpi xfonts-75dpi
 RUN apt-get install -y novnc
 RUN apt-get install -y python3-websockify
