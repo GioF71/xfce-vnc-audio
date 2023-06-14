@@ -1,5 +1,53 @@
 #!/bin/bash
 
+APT_CACHE_FILE="/etc/apt/apt.conf.d/01proxy"
+
+if [ -n "${APT_CACHE_URL}" ]; then
+    if [ ! -f "${APT_CACHE_FILE}" ]; then
+        echo "Setting apt cache"
+        echo "Acquire::http::proxy \"${APT_CACHE_URL}\";" > "${APT_CACHE_FILE}"
+        echo "Apt cache set"
+    else
+        echo "Apt cache already set"
+    fi
+    cat "${APT_CACHE_FILE}"
+fi
+
+if [ "${INSTALL_UPPLAY^^}" == "YES" ]; then
+    echo "Installing upplay ..."
+    /bin/bash /app/install/install-upplay.sh
+    echo "Installed upplay"
+else    
+    echo "Not installing upplay"
+fi
+
+if [ "${INSTALL_PULSEAUDIO_DLNA^^}" == "YES" ]; then
+    echo "Installing pulseaudio-dlna ..."
+    apt-get update
+    apt-get -y install pulseaudio-dlna
+    echo "Installed pulseaudio-dlna"
+else    
+    echo "Not installing pulseaudio-dlna"
+fi
+
+if [ "${INSTALL_CHROMIUM^^}" == "YES" ]; then
+    echo "Installing chromium ..."
+    apt-get update
+    apt-get -y install chromium
+    echo "Installed chromium"
+else    
+    echo "Not installing chromium"
+fi
+
+if [ "${INSTALL_FIREFOX^^}" == "YES" ]; then
+    echo "Installing Firefox ..."
+    apt-get update
+    apt-get -y install firefox-esr
+    echo "Installed Firefox"
+else    
+    echo "Not installing Firefox"
+fi
+
 echo "Run XFCE"
 
 echo "Creating user ...";
@@ -39,7 +87,7 @@ else
     echo "user $USER_NAME already exists."
 fi
 
-if [ -n ${AUDIO_GID} ]; then
+if [ -n "${AUDIO_GID}" ]; then
     if [ $(getent group $AUDIO_GID) ]; then
         echo "  Group with gid $AUDIO_GID already exists"
     else
@@ -64,17 +112,21 @@ if [ ! -f "$HOME_DIR/.vnc/xstartup" ]; then
     mkdir $HOME_DIR/.vnc
     chown -R $USER_NAME:$GROUP_NAME $HOME_DIR/.vnc
     chmod 700 $HOME_DIR/.vnc
+    #prepare xstartup
+    echo "#!/bin/bash" > $HOME_DIR/.vnc/xstartup
+    echo "xrdb \$HOME/.Xresources" >> $HOME_DIR/.vnc/xstartup
+    echo "startxfce4 &" >> $HOME_DIR/.vnc/xstartup
+    chown -R $USER_NAME:$GROUP_NAME $HOME_DIR/.vnc/xstartup
     chmod 755 $HOME_DIR/.vnc/xstartup
 else
     echo "xstartup file already exists"
 fi
 
 # PulseAudio
-#PULSE_CLIENT_CONF="/etc/pulse/client.conf"
-#echo "Creating pulseaudio configuration file $PULSE_CLIENT_CONF..."
-#cp /app/assets/pulse-client-template.conf $PULSE_CLIENT_CONF
-#sed -i 's/PUID/'"$PUID"'/g' $PULSE_CLIENT_CONF
-
+PULSE_CLIENT_CONF="/etc/pulse/client.conf"
+echo "Creating pulseaudio configuration file $PULSE_CLIENT_CONF..."
+cp /app/assets/pulse-client-template.conf $PULSE_CLIENT_CONF
+sed -i 's/PUID/'"$PUID"'/g' $PULSE_CLIENT_CONF
 
 #echo "Command line: [$CMD_LINE]"
 
@@ -117,12 +169,6 @@ fi
 mkdir -p $HOME_DIR/.config/autostart
 chown -R $USER_NAME:$GROUP_NAME $HOME_DIR
 
-#prepare xstartup
-echo "#!/bin/bash" > $HOME_DIR/xstartup
-echo "xrdb $HOME/.Xresources" >> $HOME_DIR/xstartup
-echo "startxfce4 &" >> $HOME_DIR/xstartup
-chown -R $USER_NAME:$GROUP_NAME $HOME_DIR/xstartup
-chmod 755 $HOME_DIR/xstartup
 
 if [[ -z "${START_PULSEAUDIO}" || "${START_PULSEAUDIO^^}" == "YES" ]]; then
     echo "Enabling PulseAudio autostart"

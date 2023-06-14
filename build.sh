@@ -6,9 +6,11 @@
 
 declare -A base_image_tags
 
+base_image_tags[bookworm]=debian:bookworm-slim
 base_image_tags[bullseye]=debian:bullseye-slim
 
 declare -A local_tag
+local_tag[bookworm]=local-bookworm
 local_tag[bullseye]=local-bullseye
 
 DEFAULT_BASE_IMAGE=bullseye

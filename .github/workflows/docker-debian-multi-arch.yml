@@ -35,12 +35,10 @@ jobs:
           image_name=${{secrets.DOCKER_USERNAME}}/xfce-vnc-audio
 
           declare -A base_images_dict
+          base_images_dict[bookworm]="debian:bookworm-slim"
           base_images_dict[bullseye]="debian:bullseye-slim"
 
           select_base_image=${base_images_dict[${{ matrix.base }}]}
-
-          declare -A upstream_image_from_matrix
-          upstream_image_from_matrix[bullseye]=debian:bullseye
 
           declare -A special_tags
           special_tags[bullseye]="${image_name}:stable,${image_name}:latest"
