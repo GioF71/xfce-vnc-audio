@@ -71,7 +71,7 @@ docker run \
     -e INSTALL_FIREFOX=yes \
     -e INSTALL_CHROMIUM=yes \
     -e INSTALL_PULSEAUDIO=yes \
-	-e INSTALL_UPPLAY=yes \
+    -e INSTALL_UPPLAY=yes \
     -v /run/user/1000/pulse:/run/user/1000/pulse \
     giof71/xfce-vnc-audio
 ```
