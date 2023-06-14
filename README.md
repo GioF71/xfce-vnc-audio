@@ -24,6 +24,11 @@ VARIABLE|DESCRIPTION
 PUID|User id for the user `vnc-user`, defaults to `1000`
 PGID|Group id for the group `vnc-user`, defaults to `1000`
 AUDIO_GID|`audio` group id from the host machine.
+APT_CACHE_URL|Set to an apt-cacher-ng instance (recommended!)
+INSTALL_UPPLAY|Set to `yes` to install upplay
+INSTALL_FIREFOX|Set to `yes` to install Firefox. Recommended browser.
+INSTALL_CHROMIUM|Set to `yes` to install Chromium. Requires `--privileged`, but does not work very well for me at least.
+INSTALL_PULSEAUDIO_DLNA|Set to `yes` to install PulseAudio-DLNA
 VNC_EXPOSE|Set to `yes` if you want to expose VNC directly (not recommended). If exposed, the port is 5901.
 VNC_GEOMETRY|Geometry of vnc, defaults to `1280x720`
 VNC_DEPTH|Color depth of vnc, defaults to `16`, conservatively
@@ -36,6 +41,7 @@ VOLUME|DESCRIPTION
 :---|:---
 /home/vnc-user|Home directory, use if you want to maintain your configurations.
 
+
 ### Ports
 
 PORT|DESCRIPTION
@@ -45,17 +51,29 @@ PORT|DESCRIPTION
 
 ### Examples
 
+#### Some considerations
+
+Topic|Comment
+:---|:---
+Networking|If you plan to use upplay, it's likely that you will need to run the container in `host` mode, in order to allow server/renderer discovery
+PulseAudio|When using pulseaudio, you might want to mount the `/run/user/1000/pulse` volume to the same path (check if your uid is also `1000`)
+
 #### Docker Run
 
 ```text
- docker run \
+docker run \
     --rm \
     -it \
     --name xfce-vnc-audio \
     --network host \
-    -e AUDIO_GID=995 \
     -p 6080:6080 \
-    giof71/xfce-vnc-audio:local-bullseye
+    -e AUDIO_GID=995 \
+    -e INSTALL_FIREFOX=yes \
+    -e INSTALL_CHROMIUM=yes \
+    -e INSTALL_PULSEAUDIO=yes \
+	-e INSTALL_UPPLAY=yes \
+    -v /run/user/1000/pulse:/run/user/1000/pulse \
+    giof71/xfce-vnc-audio
 ```
 
 Check what is the gid of `audio` on your system and use it instead of the `995` shown in the example.

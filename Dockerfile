@@ -22,23 +22,22 @@ RUN apt-get update
 #RUN mkdir /app/gpg
 RUN apt-get install -y wget
 #RUN apt-get install -y gpg dirmngr
-RUN wget https://www.lesbonscomptes.com/pages/lesbonscomptes.gpg -O /usr/share/keyrings/lesbonscomptes.gpg
+#RUN wget https://www.lesbonscomptes.com/pages/lesbonscomptes.gpg -O /usr/share/keyrings/lesbonscomptes.gpg
 #RUN gpg --no-default-keyring --keyring /app/gpg/lesbonscomptes.gpg --keyserver keyserver.ubuntu.com --recv-key F8E3347256922A8AE767605B7808CE96D38B9201
 
 RUN mkdir /app/install
 COPY install/install-upplay.sh /app/install/
-RUN /bin/bash /app/install/install-upplay.sh
+#RUN /bin/bash /app/install/install-upplay.sh
 RUN apt-get update
-RUN apt-get install -y chromium
+#RUN apt-get install -y chromium
 # regular software
 #RUN apt-get install -y mpc
 RUN apt-get install -y htop
 RUN apt-get install -y xfce4
+#RUN apt-get install -y xfce4-goodies
 RUN apt-get install -y xfce4-terminal
 RUN apt-get install -y xfce4-whiskermenu-plugin
 #RUN apt-get install -y alsa-base
-RUN apt-get install -y alsa-utils
-RUN apt-get install -y pulseaudio-dlna
 RUN apt-get install -y dbus-x11
 RUN update-alternatives --install /usr/bin/x-terminal-emulator \
     x-terminal-emulator /usr/bin/xfce4-terminal 50
@@ -47,6 +46,11 @@ RUN apt-get install -y xfonts-base xfonts-100dpi xfonts-75dpi
 RUN apt-get install -y novnc
 RUN apt-get install -y python3-websockify
 RUN apt-get install -y python3-numpy
+#RUN apt-get install -y libasound2 libasound2-plugin-smixer libasound2-plugins alsa-tools
+#RUN apt-get install -y alsa-utils
+RUN apt-get install -y pulseaudio
+RUN apt-get install -y procps
+#RUN apt-get install -y pulseaudio-dlna
 
 RUN apt-get -y autoremove
 
@@ -69,6 +73,11 @@ RUN chmod +x /app/bin/*.sh
 
 COPY README.md /app/doc/
 
+ENV APT_CACHE_URL ""
+ENV INSTALL_UPPLAY ""
+ENV INSTALL_CHROMIUM ""
+ENV INSTALL_FIREFOX ""
+
 ENV PUID ""
 ENV PGID ""
 ENV AUDIO_GID ""
@@ -79,6 +88,9 @@ ENV VNC_EXPOSE ""
 
 ENV VNC_AUTOSTART_PULSEAUDIO ""
 ENV VNC_AUTOSTART_PULSEAUDIO_DLNA ""
+
+ENV INSTALL_UPPLAY ""
+ENV INSTALL_PULSEAUDIO_DLNA ""
 
 ENV VNC_PASSWORD ""
 
