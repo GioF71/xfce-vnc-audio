@@ -29,7 +29,7 @@ INSTALL_UPPLAY|Set to `yes` to install upplay
 INSTALL_FIREFOX|Set to `yes` to install Firefox. Recommended browser.
 INSTALL_CHROMIUM|Set to `yes` to install Chromium. Requires `--privileged`, but does not work very well for me at least.
 INSTALL_PULSEAUDIO_DLNA|Set to `yes` to install PulseAudio-DLNA
-VNC_EXPOSE|Set to `yes` if you want to expose VNC directly (not recommended). If exposed, the port is 5901.
+VNC_EXPOSE|Set to `yes` if you want to expose VNC directly (not recommended). If exposed, the port is `5901`.
 VNC_GEOMETRY|Geometry of vnc, defaults to `1280x720`
 VNC_DEPTH|Color depth of vnc, defaults to `16`, conservatively
 VNC_AUTOSTART_PULSEAUDIO|Autostart PulseAudio, defaults to `yes`
@@ -66,7 +66,6 @@ docker run \
     -it \
     --name xfce-vnc-audio \
     --network host \
-    -p 6080:6080 \
     -e AUDIO_GID=995 \
     -e INSTALL_FIREFOX=yes \
     -e INSTALL_CHROMIUM=yes \
@@ -86,4 +85,6 @@ To be added.
 
 DATE|DESCRIPTION
 :---|:---
-2023-04-01|Initial release for amd64 only. Not an April fool.
+2023-08-21|Proper restart of the container (see [#7](https://github.com/GioF71/xfce-vnc-audio/issues/7))
+2023-06-14|GitHub workflow updated
+2023-04-01|Initial release for amd64 only (not an April's fool)
