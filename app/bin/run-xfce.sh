@@ -1,15 +1,41 @@
 #!/bin/bash
 
+set -ex
+
+files_to_delete=("/tmp/.X1-lock" "/tmp/.X11-unix/X1")
+dirs_to_delete=("/tmp/.X11-unix")
+
+# cleanup
+for file_to_delete in "${files_to_delete[@]}"
+do
+    if [ -f "$file_to_delete" ]; then
+        echo "Deleting file ${file_to_delete} ..."
+        rm ${file_to_delete}
+        echo ". done."
+    fi
+done
+
+for dir_to_delete in "${dirs_to_delete[@]}"
+do
+    if [ -d "$dir_to_delete" ]; then
+        echo "Deleting directory ${dir_to_delete} ..."
+        rm -rf ${dir_to_delete}
+        echo ". done."
+    fi
+done
+
 APT_CACHE_FILE="/etc/apt/apt.conf.d/01proxy"
 
 if [ -n "${APT_CACHE_URL}" ]; then
-    if [ ! -f "${APT_CACHE_FILE}" ]; then
-        echo "Setting apt cache"
-        echo "Acquire::http::proxy \"${APT_CACHE_URL}\";" > "${APT_CACHE_FILE}"
-        echo "Apt cache set"
-    else
-        echo "Apt cache already set"
+    if [ -f "${APT_CACHE_FILE}" ]; then
+        echo "Removing existing $APT_CACHE_FILE ..."
+        rm $APT_CACHE_FILE
+        echo ". done"
     fi
+    echo "Setting apt cache"
+    echo "Acquire::http::proxy \"${APT_CACHE_URL}\";" >> "${APT_CACHE_FILE}"
+    echo "Acquire::https::proxy \"DIRECT\";" >> "${APT_CACHE_FILE}"
+    echo "Apt cache set"
     cat "${APT_CACHE_FILE}"
 fi
 
