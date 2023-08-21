@@ -85,6 +85,7 @@ To be added.
 
 DATE|DESCRIPTION
 :---|:---
+2023-08-21|Upgrade to debian bookworm (see [#9](https://github.com/GioF71/xfce-vnc-audio/issues/9))
 2023-08-21|Proper restart of the container (see [#7](https://github.com/GioF71/xfce-vnc-audio/issues/7))
 2023-06-14|GitHub workflow updated
 2023-04-01|Initial release for amd64 only (not an April's fool)

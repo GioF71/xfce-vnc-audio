@@ -1,28 +1,27 @@
 ARG BASE_IMAGE="${BASE_IMAGE}"
 FROM ${BASE_IMAGE} AS BASE
-
+ARG BASE_IMAGE="${BASE_IMAGE}"
 ARG USE_APT_PROXY
 
 RUN mkdir -p /app/conf
+RUN echo $BASE_IMAGE > /app/conf/base-image.txt
 
 RUN echo "USE_APT_PROXY=["${USE_APT_PROXY}"]"
 
 COPY app/conf/01-apt-proxy /app/conf/
 
 RUN if [ "${USE_APT_PROXY}" = "Y" ]; then \
-    echo "Builind using apt proxy"; \
-    cp /app/conf/01-apt-proxy /etc/apt/apt.conf.d/01-apt-proxy; \
-    cat /etc/apt/apt.conf.d/01-apt-proxy; \
+        echo "Builind using apt proxy"; \
+        cp /app/conf/01-apt-proxy /etc/apt/apt.conf.d/01-apt-proxy; \
+        cat /etc/apt/apt.conf.d/01-apt-proxy; \
     else \
-    echo "Building without apt proxy"; \
+        echo "Building without apt proxy"; \
     fi
 
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update
 RUN apt-get install -y wget
 
-RUN mkdir /app/install
-COPY install/install-upplay.sh /app/install/
 RUN apt-get update
 # regular software
 RUN apt-get install -y htop
@@ -44,6 +43,13 @@ RUN apt-get install -y procps
 RUN apt-get -y autoremove
 
 RUN rm -rf /var/lib/apt/lists/*
+
+RUN if [ "$USE_APT_PROXY" = "Y" ]; then \
+		rm /etc/apt/apt.conf.d/01-apt-proxy; \
+	fi
+
+RUN mkdir /app/install
+COPY install/install-upplay.sh /app/install/
 
 FROM scratch
 COPY --from=BASE / /
