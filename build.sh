@@ -6,16 +6,14 @@
 
 declare -A base_image_tags
 
-base_image_tags[stable]=debian:stable-slim
 base_image_tags[bookworm]=debian:bookworm-slim
 base_image_tags[bullseye]=debian:bullseye-slim
 
 declare -A local_tag
-local_tag[stable]=local-stable
 local_tag[bookworm]=local-bookworm
 local_tag[bullseye]=local-bullseye
 
-DEFAULT_BASE_IMAGE=stable
+DEFAULT_BASE_IMAGE=bookworm
 DEFAULT_TAG=local
 DEFAULT_USE_PROXY=N
 
