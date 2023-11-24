@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        base: ["bookworm"]
+        base: [ "stable" ]
 
     steps:
       - name: Checkout
@@ -35,6 +35,7 @@ jobs:
           image_name=${{secrets.DOCKER_USERNAME}}/xfce-vnc-audio
 
           declare -A base_images_dict
+          base_images_dict[stable]="debian:stable-slim"
           base_images_dict[bookworm]="debian:bookworm-slim"
           base_images_dict[bullseye]="debian:bullseye-slim"
 
@@ -42,6 +43,7 @@ jobs:
 
           declare -A special_tags
           special_tags[bookworm]="${image_name}:stable,${image_name}:latest"
+          special_tags[stable]="${image_name}:stable,${image_name}:latest"
 
           tags=""
           if [ "${ref_type}" = "branch" ]; then

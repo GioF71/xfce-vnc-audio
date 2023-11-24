@@ -29,6 +29,7 @@ INSTALL_UPPLAY|Set to `yes` to install upplay
 INSTALL_FIREFOX|Set to `yes` to install Firefox. Recommended browser.
 INSTALL_CHROMIUM|Set to `yes` to install Chromium. Requires `--privileged`, but does not work very well for me at least.
 INSTALL_PULSEAUDIO_DLNA|Set to `yes` to install PulseAudio-DLNA
+INSTALL_CANTATA|Set to `yes` to install [Cantata](https://github.com/CDrummond/cantata)
 VNC_EXPOSE|Set to `yes` if you want to expose VNC directly (not recommended). If exposed, the port is `5901`.
 VNC_GEOMETRY|Geometry of vnc, defaults to `1280x720`
 VNC_DEPTH|Color depth of vnc, defaults to `16`, conservatively

@@ -47,6 +47,15 @@ else
     echo "Not installing upplay"
 fi
 
+if [ "${INSTALL_CANTATA^^}" == "YES" ]; then
+    echo "Installing Cantata ..."
+    apt-get update
+    apt-get -y install cantata
+    echo "Installed Cantata"
+else    
+    echo "Not installing Cantata"
+fi
+
 if [ "${INSTALL_PULSEAUDIO_DLNA^^}" == "YES" ]; then
     echo "Installing pulseaudio-dlna ..."
     apt-get update
