@@ -86,6 +86,7 @@ To be added.
 
 DATE|DESCRIPTION
 :---|:---
+2023-11-24|Support installation of [Cantata](https://github.com/CDrummond/cantata)
 2023-08-21|Upgrade to debian bookworm (see [#9](https://github.com/GioF71/xfce-vnc-audio/issues/9))
 2023-08-21|Proper restart of the container (see [#7](https://github.com/GioF71/xfce-vnc-audio/issues/7))
 2023-06-14|GitHub workflow updated
