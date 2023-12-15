@@ -42,7 +42,33 @@ if [ -n "${APT_CACHE_URL}" ]; then
     cat "${APT_CACHE_FILE}"
 fi
 
-install_pulseaudio=yes
+# PulseAudio
+PULSE_CLIENT_CONF="/etc/pulse/client.conf"
+echo "Creating pulseaudio configuration file $PULSE_CLIENT_CONF..."
+cp /app/assets/pulse-client-template.conf $PULSE_CLIENT_CONF
+sed -i 's/PUID/'"$PUID"'/g' $PULSE_CLIENT_CONF
+auto_spawn=no
+if [[ -n "${PULSEAUDIO_AUTOSPAWN}" ]]; then
+    if [[ "${PULSEAUDIO_AUTOSPAWN^^}" == "YES" || "${PULSEAUDIO_AUTOSPAWN^^}" == "Y" ]]; then
+        auto_spawn=yes
+    elif [[ ! ("${PULSEAUDIO_AUTOSPAWN^^}" == "NO" || "${PULSEAUDIO_AUTOSPAWN^^}" == "N") ]]; then
+        echo "Invalid PULSEAUDIO_AUTOSPAWN=[${PULSEAUDIO_AUTOSPAWN}]"
+        exit 1
+    fi
+fi
+sed -i 's/PULSEAUDIO_AUTOSPAWN/'"$auto_spawn"'/g' $PULSE_CLIENT_CONF
+
+if [[ "${INSTALL_ALSA^^}" == "YES" || "${INSTALL_ALSA^^}" == "Y" ]]; then
+    echo "Installing Alsa support ..."
+    apt-get update
+    apt-get -y install libasound2 alsa-utils apulse
+    echo "Installed Alsa support"
+elif [[ ! (-z "${INSTALL_ALSA}" || "${INSTALL_ALSA^^}" == "NO" || "${INSTALL_ALSA^^}" == "N") ]]; then
+    echo "Invalid INSTALL_ALSA=[${INSTALL_ALSA}]"
+    exit 1
+else    
+    echo "Not installing Alsa support"
+fi
 
 if [[ -z "${INSTALL_PULSEAUDIO}" || ("${INSTALL_PULSEAUDIO^^}" == "YES" || "${INSTALL_PULSEAUDIO^^}" == "Y") ]]; then
     echo "Installing PulseAudio ..."
@@ -173,23 +199,6 @@ if [ ! -f "$HOME_DIR/.vnc/xstartup" ]; then
 else
     echo "xstartup file already exists"
 fi
-
-# PulseAudio
-PULSE_CLIENT_CONF="/etc/pulse/client.conf"
-echo "Creating pulseaudio configuration file $PULSE_CLIENT_CONF..."
-cp /app/assets/pulse-client-template.conf $PULSE_CLIENT_CONF
-sed -i 's/PUID/'"$PUID"'/g' $PULSE_CLIENT_CONF
-
-auto_spawn=no
-if [[ -n "${PULSEAUDIO_AUTOSPAWN}" ]]; then
-    if [[ "${PULSEAUDIO_AUTOSPAWN^^}" == "YES" || "${PULSEAUDIO_AUTOSPAWN^^}" == "Y" ]]; then
-        auto_spawn=yes
-    elif [[ ! ("${PULSEAUDIO_AUTOSPAWN^^}" == "NO" || "${PULSEAUDIO_AUTOSPAWN^^}" == "N") ]]; then
-        echo "Invalid PULSEAUDIO_AUTOSPAWN=[${PULSEAUDIO_AUTOSPAWN}]"
-        exit 1
-    fi
-fi
-sed -i 's/PULSEAUDIO_AUTOSPAWN/'"$auto_spawn"'/g' $PULSE_CLIENT_CONF
 
 DEFAULT_PASSWORD="password"
 
