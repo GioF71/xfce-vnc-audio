@@ -28,6 +28,7 @@ APT_CACHE_URL|Set to an apt-cacher-ng instance (recommended!)
 INSTALL_UPPLAY|Set to `yes` to install upplay
 INSTALL_FIREFOX|Set to `yes` to install Firefox. Recommended browser.
 INSTALL_CHROMIUM|Set to `yes` to install Chromium. Requires `--privileged`.<br>This browser does not work very well in the container, for me at least.
+INSTALL_PULSEAUDIO|Defaults to `yes`, but you might not need it
 INSTALL_PULSEAUDIO_DLNA|Set to `yes` to install PulseAudio-DLNA
 INSTALL_CANTATA|Set to `yes` to install [Cantata](https://github.com/CDrummond/cantata)
 VNC_EXPOSE|Set to `yes` if you want to expose VNC directly (not recommended).<br>If exposed, the port is `5901`.

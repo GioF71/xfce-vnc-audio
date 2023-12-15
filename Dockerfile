@@ -37,7 +37,6 @@ RUN apt-get install -y xfonts-base xfonts-100dpi xfonts-75dpi
 RUN apt-get install -y novnc
 RUN apt-get install -y python3-websockify
 RUN apt-get install -y python3-numpy
-RUN apt-get install -y pulseaudio
 RUN apt-get install -y procps
 
 RUN apt-get -y autoremove

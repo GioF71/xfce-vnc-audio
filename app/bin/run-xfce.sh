@@ -42,6 +42,20 @@ if [ -n "${APT_CACHE_URL}" ]; then
     cat "${APT_CACHE_FILE}"
 fi
 
+install_pulseaudio=yes
+
+if [[ -z "${INSTALL_PULSEAUDIO}" || ("${INSTALL_PULSEAUDIO^^}" == "YES" || "${INSTALL_PULSEAUDIO^^}" == "Y") ]]; then
+    echo "Installing PulseAudio ..."
+    apt-get update
+    apt-get -y install pulseaudio
+    echo "Installed PulseAudio"
+elif [[ ! ("${INSTALL_PULSEAUDIO^^}" == "NO" || "${INSTALL_PULSEAUDIO^^}" == "N") ]]; then
+    echo "Invalid INSTALL_PULSEAUDIO=[${INSTALL_PULSEAUDIO}]"
+    exit 1
+else    
+    echo "Not installing PulseAudio"
+fi
+
 if [ "${INSTALL_UPPLAY^^}" == "YES" ]; then
     echo "Installing upplay ..."
     /bin/bash /app/install/install-upplay.sh
