@@ -42,7 +42,6 @@ VOLUME|DESCRIPTION
 :---|:---
 /home/vnc-user|Home directory, use if you want to maintain your configurations.
 
-
 ### Ports
 
 PORT|DESCRIPTION
@@ -58,7 +57,7 @@ Topic|Comment
 :---|:---
 Networking|If you plan to use upplay, it's likely that you will need to run the container in `host` mode, in order to allow server/renderer discovery
 PulseAudio|When using pulseaudio, you might want to mount the `/run/user/1000/pulse` volume to the same path (check if your uid is also `1000`)
-
+Bookworm|Bookworm repositories do not include pulseaudio-dlna, so the main builds are made from bullseye (see [#14](https://github.com/GioF71/xfce-vnc-audio/issues/14))
 #### Docker Run
 
 ```text
