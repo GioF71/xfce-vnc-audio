@@ -2,6 +2,9 @@
 
 set -ex
 
+# exit codes
+# 1 invalid argument
+
 files_to_delete=("/tmp/.X1-lock" "/tmp/.X11-unix/X1")
 dirs_to_delete=("/tmp/.X11-unix")
 
@@ -163,7 +166,16 @@ echo "Creating pulseaudio configuration file $PULSE_CLIENT_CONF..."
 cp /app/assets/pulse-client-template.conf $PULSE_CLIENT_CONF
 sed -i 's/PUID/'"$PUID"'/g' $PULSE_CLIENT_CONF
 
-#echo "Command line: [$CMD_LINE]"
+auto_spawn=no
+if [[ -n "${PULSEAUDIO_AUTOSPAWN}" ]]; then
+    if [[ "${PULSEAUDIO_AUTOSPAWN^^}" == "YES" || "${PULSEAUDIO_AUTOSPAWN^^}" == "Y" ]]; then
+        auto_spawn=yes
+    elif [[ ! ("${PULSEAUDIO_AUTOSPAWN^^}" == "NO" || "${PULSEAUDIO_AUTOSPAWN^^}" == "N") ]]; then
+        echo "Invalid PULSEAUDIO_AUTOSPAWN=[${PULSEAUDIO_AUTOSPAWN}]"
+        exit 1
+    fi
+fi
+sed -i 's/PULSEAUDIO_AUTOSPAWN/'"$auto_spawn"'/g' $PULSE_CLIENT_CONF
 
 DEFAULT_PASSWORD="password"
 

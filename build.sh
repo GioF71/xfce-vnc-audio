@@ -13,7 +13,7 @@ declare -A local_tag
 local_tag[bookworm]=local-bookworm
 local_tag[bullseye]=local-bullseye
 
-DEFAULT_BASE_IMAGE=bookworm
+DEFAULT_BASE_IMAGE=bullseye
 DEFAULT_TAG=local
 DEFAULT_USE_PROXY=N
 

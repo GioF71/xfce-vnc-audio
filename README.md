@@ -27,14 +27,15 @@ AUDIO_GID|`audio` group id from the host machine.
 APT_CACHE_URL|Set to an apt-cacher-ng instance (recommended!)
 INSTALL_UPPLAY|Set to `yes` to install upplay
 INSTALL_FIREFOX|Set to `yes` to install Firefox. Recommended browser.
-INSTALL_CHROMIUM|Set to `yes` to install Chromium. Requires `--privileged`, but does not work very well for me at least.
+INSTALL_CHROMIUM|Set to `yes` to install Chromium. Requires `--privileged`.<br>This browser does not work very well in the container, for me at least.
 INSTALL_PULSEAUDIO_DLNA|Set to `yes` to install PulseAudio-DLNA
 INSTALL_CANTATA|Set to `yes` to install [Cantata](https://github.com/CDrummond/cantata)
-VNC_EXPOSE|Set to `yes` if you want to expose VNC directly (not recommended). If exposed, the port is `5901`.
+VNC_EXPOSE|Set to `yes` if you want to expose VNC directly (not recommended).<br>If exposed, the port is `5901`.
 VNC_GEOMETRY|Geometry of vnc, defaults to `1280x720`
 VNC_DEPTH|Color depth of vnc, defaults to `16`, conservatively
 VNC_AUTOSTART_PULSEAUDIO|Autostart PulseAudio, defaults to `yes`
 VNC_AUTOSTART_PULSEAUDIO_DLNA|Autostart PulseAudio-DLNA, defaults to `yes`
+PULSEAUDIO_AUTOSPAWN|Autospawn PulseAudio if set to `yes`, instead of relying on the host machine's PulseAudio
 
 ### Volumes
 
@@ -85,6 +86,7 @@ To be added.
 
 DATE|DESCRIPTION
 :---|:---
+2023-12-15|Add support for PULSEAUDIO_AUTOSPAWN
 2023-12-15|Back to bullseye because of missing packages (see [#14](https://github.com/GioF71/xfce-vnc-audio/issues/14))
 2023-11-24|Support installation of [Cantata](https://github.com/CDrummond/cantata)
 2023-08-21|Upgrade to debian bookworm (see [#9](https://github.com/GioF71/xfce-vnc-audio/issues/9))
