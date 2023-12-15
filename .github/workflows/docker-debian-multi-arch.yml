@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        base: [ "bookworm" ]
+        base: [ "bullseye", "bookworm" ]
 
     steps:
       - name: Checkout
@@ -41,7 +41,7 @@ jobs:
           select_base_image=${base_images_dict[${{ matrix.base }}]}
 
           declare -A special_tags
-          special_tags[bookworm]="${image_name}:stable,${image_name}:latest"
+          special_tags[bullseye]="${image_name}:stable,${image_name}:latest"
 
           tags=""
           if [ "${ref_type}" = "branch" ]; then
